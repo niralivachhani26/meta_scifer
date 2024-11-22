@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+<head>
+
+    <meta charset="UTF-8">
+    <title>{% block title %}Khana Khazana Express{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <style>
+        form label {
+            width: 150px;
+        }
+        form input {
+            width: 250px;
+        }
+        form div {
+    margin-bottom: 15px;
+}
+        ul.errorlist.nonfield {
+    color: red;
+    padding-bottom: 15px;
+}
+    </style>
+
+</head>
+<body>
+    <div class="wrapper" id="wrapper" style="margin-top:80px;">
+        <div class="ht__bradcaump__area bg-image--18">
+            <div class="ht__bradcaump__wrap d-flex align-items-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="bradcaump__inner text-center">
+                                <h2 class="bradcaump-title" style="padding-bottom:50px;">Login</h2>
+                                <form method="post">
+                                    {% csrf_token %}
+                                    {{ form }}
+                                    <button type="submit" class="food__btn">Log In</button>
+                                </form>
+                                <div style="margin-top:10px;">Don't Have an Account? <a href="{% url 'signup' %}">Signup</a></a></div>
+
+                                <div style="margin-top:20px;"><h3><a href="{% url 'index' %}">Back to Home</a></h3></div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="cart-main-area section-padding--lg bg--white">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 ol-lg-12">
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>

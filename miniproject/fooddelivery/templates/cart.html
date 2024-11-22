@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+
+{% block title %}Cart{% endblock %}
+
+{% block content %}
+
+{% load static %}
+<div class="ht__bradcaump__area bg-image--18">
+            <div class="ht__bradcaump__wrap d-flex align-items-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12" style="margin-top: 13% !important;">
+                            <div class="bradcaump__inner text-center">
+                                <h2 class="bradcaump-title">cart</h2>
+                                <nav class="bradcaump-inner">
+                                  <a class="breadcrumb-item" href="{% url 'index' %}">Home</a>
+                                  <span class="brd-separetor"><i class="fa fa-long-arrow-right"></i></span>
+                                  <span class="breadcrumb-item active">cart</span>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<div class="cart-main-area section-padding--lg bg--white">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 ol-lg-12">
+                        <form action="#">
+                            <div class="table-content table-responsive">
+                                <div class="messages_popup">
+                                {% if messages %}
+                                    <ul>
+                                        {% for message in messages%}
+                                        <li class="message {{ message.tags }}">{{ message }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                    {% endif %}
+                                </div>
+                                <table>
+                                    <thead>
+                                        <tr class="title-top">
+                                            <th class="product-thumbnail">Image</th>
+                                            <th class="product-name">Product</th>
+                                            <th class="product-price">Price</th>
+                                            <th class="product-quantity">Quantity</th>
+                                            <th class="">Total</th>
+                                            <th class="product-remove">Remove</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for item in food_items %}
+                                        <tr>
+                                            <td class="product-thumbnail"><a href="#"><img src="{{ item.menu_item.image.url }}" alt="product img"></a></td>
+                                            <td class="product-name"><a href="#">{{ item.menu_item.name }}</a></td>
+                                            <td class="product-price"><span class="amount">{{ item.menu_item.price }}</span></td>
+                                            <td class="product-quantity"><input type="number" min = 1 value="{{ item.quantity }}" name="quantity" class="product_quantity" data-order-id="{{ item.id }}"></td>
+                                            <td class="product-subtotal" data-id = "{{ item.id }}">Rs. {{ item.total_price }}</td>
+                                            <td class="product-remove"><a href="{% url 'remove_cart' item.id %}">X</a></td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6"></div>
+                    <div class="col-lg-6 offset-lg-6">
+                        <div class="cartbox__total__area">
+                            <div class="cartbox-total d-flex justify-content-between">
+                                <ul class="cart__total__list">
+                                    <li>Sub Total</li>
+                                </ul>
+                                <ul class="cart__total__tk">
+                                    <li>Rs {{ total }}</li>
+                                </ul>
+                            </div>
+                            <div class="cart__total__amount">
+                                <span>Grand Total</span>
+                                <span id="grand_total">Rs {{ total }}</span>
+                            </div>
+                        </div>
+                        <div class="cart__total__amount" style="margin-top:20px;background-color:black !important; font-size:24px !important;">
+                            <a href="{% url 'thanks' order_id %}" style="color:white !important;">Order Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+   $(document).ready(function(){
+        $(".product_quantity").on("change", function(e){
+            const orderId = $(this).data("order-id");
+            const qty = $(this).val();
+
+            $.ajax({
+            url:   `/update_cart/${orderId}/ajax`,
+            type: "POST",
+            data:{
+                'quantity' :qty,
+                csrfmiddlewaretoken: "{{ csrf_token }}"
+            },
+            success: function(response){
+                var sub_total = 0;
+                var total = 0;
+                if(response.success){
+                    $('.messages_popup').append('<ul><li class="success"> Quantity updated successfully!</ul>')
+                    $(".product-subtotal").each(function() {
+
+                        if($(this).data('id') == orderId){
+                             $(this).text(response.price);
+
+                        }
+
+                        const price = $(this).text();
+                        const array = price.split(' ');
+                        const final_price = array[0];
+                        sub_total +=  parseFloat(final_price).toFixed(2);
+                        s = "Rs "+sub_total.replace(/^0+/, '');
+
+                        $('.cart__total__tk li').text(s);
+                        $('#grand_total').text(s);
+
+
+
+                    });
+                }
+            }
+
+        });
+        })
+   })
+</script>
+{% endblock %}

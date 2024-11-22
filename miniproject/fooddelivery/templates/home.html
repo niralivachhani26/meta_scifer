@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+{% load static %}
+<!-- Start Slider Area -->
+        <div class="slider__area slider--one">
+            <div class="slider__activation--1">
+                <!-- Start Single Slide -->
+                <div class="slide fullscreen bg-image--1">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="slider__content">
+                                    <div class="slider__inner">
+                                        <h2>“KHANA KHAZANA EXPRESS”</h2>
+                                        <h1>food delivery &amp; service</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Single Slide -->
+            </div>
+        </div>
+        <!-- End Slider Area -->
+        <!-- Start Services-->
+        <section class="fd__service__area bg-image--2 section-padding--xlg">
+            <div class="container">
+                <div class="service__wrapper bg--white">
+                    <div class="row">
+                        <div class="col-md-12 col-lg-12">
+                            <div class="section__title service__align--left">
+                                <p>The process of our service</p>
+                                <h2 class="title__line">How it work</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt--30">
+                        <!-- Start Single Service -->
+                        <div class="col-sm-12 col-md-6 col-lg-4">
+                            <div class="service">
+                                <div class="service__title">
+                                    <div class="ser__icon">
+                                        <img src="{% static 'images/icon/shapes/1.png' %}" alt="icon image">
+                                    </div>
+                                    <h2><a href="service.html">Choose restaurant</a></h2>
+                                </div>
+                                <div class="service__details">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Single Service -->
+                        <!-- Start Single Service -->
+                        <div class="col-sm-12 col-md-6 col-lg-4">
+                            <div class="service">
+                                <div class="service__title">
+                                    <div class="ser__icon">
+                                        <img src="{% static 'images/icon/shapes/2.png' %}" alt="icon image">
+                                    </div>
+                                    <h2><a href="service.html">Select, you love to eat</a></h2>
+                                </div>
+                                <div class="service__details">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Single Service -->
+                        <!-- Start Single Service -->
+                        <div class="col-sm-12 col-md-6 col-lg-4">
+                            <div class="service">
+                                <div class="service__title">
+                                    <div class="ser__icon">
+                                        <img src="{% static 'images/icon/shapes/3.png' %}" alt="icon image">
+                                    </div>
+                                    <h2><a href="service.html">Pickup or delivery</a></h2>
+                                </div>
+                                <div class="service__details">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Single Service -->
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- end Services-->
+<section class="food__category__area bg--white section-padding--lg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-lg-12">
+                        <div class="section__title service__align--left">
+                            <p>the process of our service</p>
+                            <h2 class="title__line">Special Menu</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="food__category__wrapper mt--40">
+                    <div class="row">
+                         {% for item in food_items %}
+                        <!-- Start Single Category -->
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <div class="food__item foo" data-sr-id="1" style="; visibility: visible;  -webkit-transform: translateY(0) scale(1); opacity: 1;transform: translateY(0) scale(1); opacity: 1;-webkit-transition: all, -webkit-transform 0.7s cubic-bezier(0.6, 0.2, 0.1, 1) 0s, opacity 0.7s cubic-bezier(0.6, 0.2, 0.1, 1) 0s; transition: all, transform 0.7s cubic-bezier(0.6, 0.2, 0.1, 1) 0s, opacity 0.7s cubic-bezier(0.6, 0.2, 0.1, 1) 0s; ">
+                                <div class="food__thumb">
+                                    <a href="menu-details.html">
+                                        <img src="{{ item.image.url }}" alt="product images">
+                                    </a>
+                                </div>
+                                <div class="food__title">
+                                    <h2><a href="menu-details.html">{{ item.name }}</a></h2>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Single Category -->
+                        {% endfor %}
+                    </div>
+                </div>
+                <div style="text-align: right; margin-top:20px;">
+    <div class="list__btn">
+                                                <a class="food__btn red--btn theme--hover" href="{% url 'menu_list' %}">View More</a>
+    </div>
+    </div>
+            </div>
+
+        </section>
+{% endblock %}
