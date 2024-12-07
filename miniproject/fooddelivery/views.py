@@ -1,14 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.template import loader
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import viewsets, status
 from django.contrib.auth.models import User
 from .models import Restaurant, MenuItem, Order, OrderItem, Delivery
-from .serializers import RestaurantSerializer, MenuItemSerializer, OrderSerializer, DeliverySerializer, \
-    RegisterSerializer, LoginSerializer
-from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
@@ -50,7 +44,7 @@ def add_to_cart(request, food_id):
     if not created:
         order_item.quantity += 1
         order_item.save()
-        
+
     messages.success(request, f"{food_item.name} added to cart!")
     return redirect('cart')
 
@@ -58,9 +52,14 @@ def add_to_cart(request, food_id):
 def cart(request):
     user = request.user
     order = Order.objects.filter(user = user, status = "Pending").first()
-    order_items = order.order_items.all() if order else []
-    total = sum(item.total_price for item in order_items)
-    order_id = order.id
+    if order:
+        order_items = order.order_items.all() if order else []
+        total = sum(item.total_price for item in order_items)
+        order_id = order.id
+    else:
+        order_items = []
+        total = []
+        order_id = 0
     return render(request, 'cart.html',{'food_items' : order_items, 'total': total, 'order_id' : order_id})
 
 @login_required
@@ -88,36 +87,3 @@ def remove_from_cart(request, food_id):
     return redirect('cart')
 
 
-class LoginView(APIView):
-    def post(self, request):
-        serializer = LoginSerializer(data = request.data)
-        if serializer.is_valid():
-            user = serializer.validated_data
-            refresh = RefreshToken.for_user(user)
-            return Response({
-                'refresh': str(refresh),
-                'access': str(refresh.access_token),
-            })
-        return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
-
-class RestaurantViewSet(viewsets.ModelViewSet):
-    queryset = Restaurant.objects.all()
-    serializer_class = RestaurantSerializer
-
-class MenuItemViewSet(viewsets.ModelViewSet):
-    queryset = Restaurant.objects.all()
-    serializer_class = MenuItemSerializer
-
-class OrderViewSet(viewsets.ModelViewSet):
-    queryset = Order.objects.all()
-    serializer_class = OrderSerializer
-
-    def perform_create(self, serializer):
-        serializer.save(user = self.request.user)
-
-class DeliveryViewSet(viewsets.ModelViewSet):
-    queryset = Delivery.objects.all()
-    serializer_class = DeliverySerializer
-
-
-# Create your views here.

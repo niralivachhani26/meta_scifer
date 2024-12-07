@@ -10118,3 +10118,31 @@ input[type=submit] {
     margin-bottom: 0;
     list-style: none;
 }
+form .helptext{
+    display: block !important;
+    width: auto !important;
+}
+form .food__btn{
+    width: auto !important;
+}
+form label {
+    display: inline !important;
+}
+form button {
+        display: block !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: 20px;
+}
+
+form label::before {
+            content: "\A" !important;
+            white-space: pre;
+            display: block;
+}
+form button::before{
+    content: "\A" !important;
+            white-space: pre;
+            display: block;
+}
+

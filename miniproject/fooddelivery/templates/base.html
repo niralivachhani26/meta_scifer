@@ -43,9 +43,9 @@
                             <div class="header__right d-flex justify-content-end">
                                 <div class="log__in">
                                     {% if user.is_authenticated %}
-                                    <form action="{% url 'logout' %}" method="post" style="position: absolute;top: 36%;left: -3px;">
+                                    <form action="{% url 'logout' %}" method="post" style="position: absolute;top: 6%;left: -3px;">
                                         {% csrf_token %}
-                                        <button type="submit" class="accountbox-trigger" style="border: 0px;background: none;font-size: 22px;color: #666666;"><i class="fa fa-sign-out"></i></button>
+                                        <button type="submit" class="accountbox-trigger" style="border: 0px;background: none;font-size: 22px;color: #666666;margin-top:0px !important;"><i class="fa fa-sign-out"></i></button>
                                     </form>
 
                                     {% else %}

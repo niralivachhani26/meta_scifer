@@ -50,16 +50,26 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    {% for item in food_items %}
-                                        <tr>
-                                            <td class="product-thumbnail"><a href="#"><img src="{{ item.menu_item.image.url }}" alt="product img"></a></td>
-                                            <td class="product-name"><a href="#">{{ item.menu_item.name }}</a></td>
-                                            <td class="product-price"><span class="amount">{{ item.menu_item.price }}</span></td>
-                                            <td class="product-quantity"><input type="number" min = 1 value="{{ item.quantity }}" name="quantity" class="product_quantity" data-order-id="{{ item.id }}"></td>
-                                            <td class="product-subtotal" data-id = "{{ item.id }}">Rs. {{ item.total_price }}</td>
-                                            <td class="product-remove"><a href="{% url 'remove_cart' item.id %}">X</a></td>
-                                        </tr>
-                                    {% endfor %}
+                                        {% if food_items %}
+                                            {% for item in food_items %}
+                                                <tr>
+                                                    <td class="product-thumbnail"><a href="#"><img src="{{ item.menu_item.image.url }}" alt="product img"></a></td>
+                                                    <td class="product-name"><a href="#">{{ item.menu_item.name }}</a></td>
+                                                    <td class="product-price"><span class="amount">{{ item.menu_item.price }}</span></td>
+                                                    <td class="product-quantity"><input type="number" min = 1 value="{{ item.quantity }}" name="quantity" class="product_quantity" data-order-id="{{ item.id }}"></td>
+                                                    <td class="product-subtotal" data-id = "{{ item.id }}">Rs. {{ item.total_price }}</td>
+                                                    <td class="product-remove"><a href="{% url 'remove_cart' item.id %}">X</a></td>
+                                                </tr>
+                                            {% endfor %}
+
+
+                                        {% else %}
+                                            <tr>
+                                                <td colspan="6">No Records Found!!</td>
+                                            </tr>
+
+
+                                        {% endif %}
                                     </tbody>
                                 </table>
                             </div>
@@ -75,17 +85,21 @@
                                     <li>Sub Total</li>
                                 </ul>
                                 <ul class="cart__total__tk">
-                                    <li>Rs {{ total }}</li>
+                                    <li>Rs {% if not total %} 0 {% else %}{{ total }}{% endif %}</li>
                                 </ul>
                             </div>
                             <div class="cart__total__amount">
                                 <span>Grand Total</span>
-                                <span id="grand_total">Rs {{ total }}</span>
+                                <span id="grand_total">Rs {% if not total %} 0 {% else %}{{ total }}{% endif %}</span>
                             </div>
                         </div>
+                        {% if order_id %}
                         <div class="cart__total__amount" style="margin-top:20px;background-color:black !important; font-size:24px !important;">
+
                             <a href="{% url 'thanks' order_id %}" style="color:white !important;">Order Now</a>
+
                         </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
